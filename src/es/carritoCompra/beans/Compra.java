@@ -59,15 +59,18 @@ public class Compra {
 	}
 	
 	
-	public void compraTotal(int numero, Producto p) {
-		if(p.getStock()>numero) {
-			this.total += numero*p.getPrecio();
-			System.out.println("Compra realizada");
-		}else {
-			System.out.println("No hay stock suficiente");
-		}
+	public void compraTotal(int numero, Producto p) 
+		this.total += numero*p.getPrecio();
+		System.out.println("Compra realizada");
 		
 	}
+
+
+	@Override
+	public String toString() {
+		return "Compra [fecha=" + fecha + ", total=" + total + "]";
+	}
+	
 	
 
 }
