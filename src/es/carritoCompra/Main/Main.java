@@ -17,72 +17,116 @@ public class Main {
 		
 		e.setNombreEmpresa("Mercadona");
 		
-		Map <Cliente,ArrayList<Compra>> listaClientes=new HashMap<Cliente,ArrayList<Compra>>();
+		Map <String,ArrayList<Compra>> listaClientes=new HashMap<String,ArrayList<Compra>>();
+		
+		ArrayList<Producto>productos=new ArrayList<Producto>();
+		
+		e.setProductos(productos);
 		
 		Cliente c1=new Cliente("Luismi","Sanchez","C/laguna","123456789","1");
 		
 		Producto limpiador = new Producto("Fairy","jabon para lavar platos",1.15,"Limpieza",150);
+		productos.add(limpiador);
+		
+		Producto lomo = new Producto("Lomo","Lomo en rodajas",1,"Alimentacion",120);
+		productos.add(lomo);
+		
+		Producto colonia = new Producto("Colonia","Colonia",2.15,"Perfumeria",130);
+		productos.add(colonia);
 		
 		Scanner sc=new Scanner(System.in);
+	
+		int opcion=0;
 		
-		System.out.println("¿Quien eres?: 1.Cliente 2.Empresa 3.Salida");
-		
-		switch(sc.nextInt()) {
-			case 1: menuCliente(c1,e,listaClientes);
-			break;
-			case 2:menuEmpresa(e,listaClientes);
-			break;
-			case 3: 
-			break;
+		while(opcion!=3) {
+			System.out.println("¿Quien eres?: 1.Cliente 2.Empresa 3.Salida");
+			opcion=sc.nextInt();
+			switch(opcion) {
+				case 1: menuCliente(c1,e,listaClientes);
+				break;
+				case 2:menuEmpresa(e);
+				break;
+			}
 		}
+		
 	}
 
-	private static void menuEmpresa(Empresa e,Map <Cliente,ArrayList<Compra>> listaClientes) {
+	private static void menuEmpresa(Empresa e) {
 		Scanner sc=new Scanner(System.in);
-		System.out.println("1.Creacion de productos 2.Incremento de stock 3.Disminucion de stock");
-		switch(sc.nextInt()) {
-			case 1: creacionProducto(e);
-			break;
-			case 2:System.out.println("Introduce el nombre del producto");
-				String nombre=sc.nextLine();
-				System.out.println("Introduce la cantidad de incremento de stock:"); 
-				String stock=sc.nextLine();
-				if(isNumeric(stock) && stock.isEmpty() && stock!=null) {
-					incremento(Integer.parseInt(stock),e,nombre);
+		int opcion=0;
+		while(opcion!=6) {
+			System.out.println("1.Creacion de productos 2.Incremento de stock 3.Disminucion de stock 4.Listado de productos 5.Listado de compra de cliente 6.Salir");
+			opcion=sc.nextInt();
+			switch(opcion) {
+				case 1: creacionProducto(e);
+				break;
+				case 2:incremento(e);
+				break;
+				case 3:disminucion(e);
+				break;
+				case 4: mostrarProductos(e);
+				break;
+				case 5: mostrarListaCliente(e);
+				break;
+			}
+		}
+		
+	}
+
+	private static void mostrarListaCliente(Empresa e) {
+		for (Map.Entry<String, ArrayList<Compra>> entry : e.getCompraCliente().entrySet()) {
+		    System.out.println("clave=" + entry.getKey());
+		    for(Compra c:entry.getValue()) {
+		    	System.out.println(c.toString());
+		    }
+		}
+		
+	}
+
+	private static void creacionProducto(Empresa e) {
+		Scanner sc=new Scanner(System.in);
+		
+		System.out.println("Categoria: 1.Alimentacion 2.Limpieza 3.Perfumeria");
+		String categoria=sc.nextLine();
+		System.out.println("Nombre del producto:");
+		String nombre=sc.nextLine();
+		System.out.println("Descripcion del producto:");
+		String descripcion=sc.nextLine();
+		System.out.println("Precio del producto:");
+		double precio=sc.nextDouble();
+		System.out.println("Stock del producto");
+		int stock=sc.nextInt();
+		
+		e.crearProducto(nombre, descripcion, precio, categoria, stock);
+	}
+
+	private static void incremento(Empresa e) {
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Introduce el nombre del producto");
+		String nombre=sc.nextLine();
+		System.out.println("Introduce la cantidad de incremento de stock:"); 
+		int stock=sc.nextInt();
+			for(Producto p: e.getProductos()) {
+				if(p.getNombre().equalsIgnoreCase(nombre)) {
+					e.incremento(stock, nombre);
 				}
-			break;
-			case 3:System.out.println("Introduce el nombre del producto");
-			String nombre1=sc.nextLine();
-			System.out.println("Introduce la cantidad de disminucion de stock:"); 
-			String stock1=sc.nextLine();
-			if(isNumeric(stock1) && stock1.isEmpty() && stock1 !=null) {
-				disminucion(Integer.parseInt(stock1),e,nombre1);
 			}
-			break;
-		}
-		
-		
-	}
+		}	
 
-	private static void incremento(int stock, Empresa e, String nombre) {
-		for(Producto p: e.getProductos()) {
-			if(p.getNombre().equals(nombre)) {
-				e.incremento(stock, nombre);
+	private static void disminucion(Empresa e) {
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Introduce el nombre del producto");
+		String nombre=sc.nextLine();
+		System.out.println("Introduce la cantidad de disminucion de stock:"); 
+		int stock=sc.nextInt();
+			for(Producto p: e.getProductos()) {
+				if(p.getNombre().equalsIgnoreCase(nombre)) {
+					e.disminuir(stock, nombre);
+				}
 			}
 		}
-		
-	}
-
-	private static void disminucion(int stock,Empresa e,String nombre) {
-		for(Producto p: e.getProductos()) {
-			if(p.getNombre().equals(nombre)) {
-				e.disminuir(stock, nombre);
-			}
-		}
-	}
 	
 	
-
 	public static boolean isNumeric(String cadena) {
 
         boolean resultado;
@@ -97,25 +141,29 @@ public class Main {
     }
 
 	
-	private static void menuCliente(Cliente c,Empresa e,Map <Cliente,ArrayList<Compra>> listaClientes) {
+	private static void menuCliente(Cliente c,Empresa e,Map <String,ArrayList<Compra>> listaClientes) {
 		Scanner sc=new Scanner(System.in);
-		System.out.println("1.Compra de producto 2.Paso por caja");
 		Compra compra=new Compra();
-		switch(sc.nextInt()) {
+		int opcion=0;
+		while(opcion!=3) {
+			System.out.println("1.Compra de producto 2.Paso por caja 3.Salir");
+			opcion=sc.nextInt();
+			switch(opcion) {
 			case 1: eleccionProductos(c,e,compra);
 			break;
 			case 2: pasoCaja(c,e,compra,listaClientes);
 			break;
+			}
 		}
 		
 	}
 
-	private static void pasoCaja(Cliente c, Empresa e,Compra compra,Map <Cliente,ArrayList<Compra>> listaClientes) {
+	private static void pasoCaja(Cliente c, Empresa e,Compra compra,Map <String,ArrayList<Compra>> listaClientes) {
 		System.out.println("Precio final: "+compra.getTotal());
 		ArrayList<Compra> lista=new ArrayList<>();
 		lista.add(compra);
 		
-		listaClientes.put(c, lista);
+		listaClientes.put(c.getDni(), lista);
 		e.setCompraCliente(listaClientes);
 	}
 
@@ -128,11 +176,12 @@ public class Main {
 		System.out.println("Introduce cantidad del producto");
 		int stock=sc.nextInt();
 		for(Producto p:e.getProductos()) {
-			if(p.getNombre().equals(nombre)) {
+			if(p.getNombre().equalsIgnoreCase(nombre)) {
 				if(p.getStock()>stock) {
 					compra.setCliente(c);
 					compra.setFecha(fecha);
 					compra.compraTotal(stock, p);
+					e.disminuir(stock, nombre);
 				}else {
 					System.out.println("No hay stock");
 				}

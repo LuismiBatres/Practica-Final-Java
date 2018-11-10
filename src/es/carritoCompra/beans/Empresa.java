@@ -17,13 +17,13 @@ public class Empresa {
 	
 	private ArrayList<Producto> productos = new ArrayList<>();
 	
-	private Map<Cliente,ArrayList<Compra>> compraCliente = new HashMap<Cliente,ArrayList<Compra>>();
+	private Map<String,ArrayList<Compra>> compraCliente = new HashMap<String,ArrayList<Compra>>();
 	
 	public Empresa() {
 		
 	}
 
-	public Empresa(String nombreEmpresa, ArrayList<Producto> productos, Map<Cliente, ArrayList<Compra>> compraCliente) {
+	public Empresa(String nombreEmpresa, ArrayList<Producto> productos, Map<String, ArrayList<Compra>> compraCliente) {
 		super();
 		this.nombreEmpresa = nombreEmpresa;
 		this.productos = productos;
@@ -46,11 +46,11 @@ public class Empresa {
 		this.productos = productos;
 	}
 
-	public Map<Cliente, ArrayList<Compra>> getCompraCliente() {
+	public Map<String, ArrayList<Compra>> getCompraCliente() {
 		return compraCliente;
 	}
 
-	public void setCompraCliente(Map<Cliente, ArrayList<Compra>> compraCliente) {
+	public void setCompraCliente(Map<String, ArrayList<Compra>> compraCliente) {
 		this.compraCliente = compraCliente;
 	}
 	

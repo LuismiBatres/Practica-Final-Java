@@ -59,7 +59,7 @@ public class Compra {
 	}
 	
 	
-	public void compraTotal(int numero, Producto p) 
+	public void compraTotal(int numero, Producto p) { 
 		this.total += numero*p.getPrecio();
 		System.out.println("Compra realizada");
 		
