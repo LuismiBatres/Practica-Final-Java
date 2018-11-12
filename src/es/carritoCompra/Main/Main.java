@@ -48,6 +48,7 @@ public class Main {
 				break;
 			}
 		}
+		sc.close();
 		
 	}
 
@@ -64,12 +65,13 @@ public class Main {
 				break;
 				case 3:disminucion(e);
 				break;
-				case 4: mostrarProductos(e);
+				case 4: e.mostrarProductos();
 				break;
 				case 5: mostrarListaCliente(e);
 				break;
 			}
 		}
+		sc.close();
 		
 	}
 
@@ -98,6 +100,7 @@ public class Main {
 		int stock=sc.nextInt();
 		
 		e.crearProducto(nombre, descripcion, precio, categoria, stock);
+		sc.close();
 	}
 
 	private static void incremento(Empresa e) {
@@ -111,6 +114,7 @@ public class Main {
 					e.incremento(stock, nombre);
 				}
 			}
+			sc.close();
 		}	
 
 	private static void disminucion(Empresa e) {
@@ -124,6 +128,7 @@ public class Main {
 					e.disminuir(stock, nombre);
 				}
 			}
+			sc.close();
 		}
 	
 	
@@ -156,7 +161,7 @@ public class Main {
 			break;
 			}
 		}
-		
+		sc.close();
 	}
 
 	private static void pasoCaja(Cliente c, Empresa e,Compra compra,Map <String,ArrayList<Compra>> listaClientes,ArrayList<Compra>lista) {
@@ -174,7 +179,7 @@ public class Main {
 
 	private static void eleccionProductos(Cliente c, Empresa e,Compra compra,ArrayList<Compra>lista) {
 		Scanner sc=new Scanner(System.in);
-		mostrarProductos(e);
+		e.mostrarProductos();
 		String fecha="08/11/2018";
 		System.out.println("Introduce nombre producto");
 		String nombre=sc.nextLine();
@@ -194,11 +199,7 @@ public class Main {
 				
 			}
 		}
+		sc.close();
 	}
 
-	private static void mostrarProductos(Empresa e) {
-		for(Producto p:e.getProductos()) {
-			System.out.println(p.toString());
-		}
-	}
 }

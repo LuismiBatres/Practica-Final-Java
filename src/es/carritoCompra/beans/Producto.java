@@ -3,8 +3,6 @@
  */
 package es.carritoCompra.beans;
 
-import java.util.ArrayList;
-
 /**
  * @author aula10
  *

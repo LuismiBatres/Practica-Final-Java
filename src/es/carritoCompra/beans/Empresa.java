@@ -83,4 +83,10 @@ public class Empresa {
 	public void crearProducto(String nombre,String descripcion, double precio, String categoria,int stock) {
 		this.productos.add(new Producto(nombre,descripcion,precio,categoria,stock));
 	}
+	
+	public void mostrarProductos() {
+		for(Producto p:this.productos) {
+			System.out.println(p.toString());
+		}
+	}
 }
