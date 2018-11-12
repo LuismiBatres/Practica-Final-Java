@@ -21,11 +21,11 @@ public class Conexion {
 				System.out.println("Connected to the database sql7265151");
 				
 				//INSERT
-				String query = " insert into Categorias values (?, ?)";
+				/*String query = " insert into Categorias values (?, ?)";
 				PreparedStatement preparedStmt =conn1.prepareStatement(query);
 				preparedStmt.setInt (1, 11);
 				preparedStmt.setString (2, "Perfumeria");
-				preparedStmt.execute();
+				preparedStmt.execute();*/
 				
 				//SELECT 
 				String query1 = "SELECT * FROM Categorias";
@@ -54,8 +54,6 @@ public class Conexion {
 		}
 		
 		
-		
-
 	}
 
 }
