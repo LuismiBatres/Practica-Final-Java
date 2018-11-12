@@ -86,7 +86,7 @@ public class Main {
 	private static void creacionProducto(Empresa e) {
 		Scanner sc=new Scanner(System.in);
 		
-		System.out.println("Categoria: 1.Alimentacion 2.Limpieza 3.Perfumeria");
+		System.out.println("Categoria: Alimentacion Limpieza Perfumeria");
 		String categoria=sc.nextLine();
 		System.out.println("Nombre del producto:");
 		String nombre=sc.nextLine();
@@ -144,30 +144,35 @@ public class Main {
 	private static void menuCliente(Cliente c,Empresa e,Map <String,ArrayList<Compra>> listaClientes) {
 		Scanner sc=new Scanner(System.in);
 		Compra compra=new Compra();
+		ArrayList<Compra> lista=new ArrayList<>();
 		int opcion=0;
 		while(opcion!=3) {
 			System.out.println("1.Compra de producto 2.Paso por caja 3.Salir");
 			opcion=sc.nextInt();
 			switch(opcion) {
-			case 1: eleccionProductos(c,e,compra);
+			case 1: eleccionProductos(c,e,compra,lista);
 			break;
-			case 2: pasoCaja(c,e,compra,listaClientes);
+			case 2: pasoCaja(c,e,compra,listaClientes,lista);
 			break;
 			}
 		}
 		
 	}
 
-	private static void pasoCaja(Cliente c, Empresa e,Compra compra,Map <String,ArrayList<Compra>> listaClientes) {
+	private static void pasoCaja(Cliente c, Empresa e,Compra compra,Map <String,ArrayList<Compra>> listaClientes,ArrayList<Compra>lista) {
 		System.out.println("Precio final: "+compra.getTotal());
-		ArrayList<Compra> lista=new ArrayList<>();
-		lista.add(compra);
+		ArrayList<Compra>lista2=new ArrayList<>();
+		
+		if(listaClientes.containsKey(c.getDni())) {
+			lista2=listaClientes.get(c.getDni());
+			lista.addAll(lista2);
+		}
 		
 		listaClientes.put(c.getDni(), lista);
 		e.setCompraCliente(listaClientes);
 	}
 
-	private static void eleccionProductos(Cliente c, Empresa e,Compra compra) {
+	private static void eleccionProductos(Cliente c, Empresa e,Compra compra,ArrayList<Compra>lista) {
 		Scanner sc=new Scanner(System.in);
 		mostrarProductos(e);
 		String fecha="08/11/2018";
@@ -182,6 +187,7 @@ public class Main {
 					compra.setFecha(fecha);
 					compra.compraTotal(stock, p);
 					e.disminuir(stock, nombre);
+					lista.add(compra);
 				}else {
 					System.out.println("No hay stock");
 				}
